@@ -19,17 +19,18 @@ class _EncryptFFIState extends State<EncryptFFI> {
       ? DynamicLibrary.open('libtrial_ffi.so')
       : DynamicLibrary.process();
 
-  _tryEncrypt(Pointer<Utf8> inputs) {
+  tryEncrypt(Pointer<Utf8> inputs) {
     final Pointer<Utf8> Function(Pointer<Utf8> text) trialFFI = trialFFILib
         .lookup<NativeFunction<Pointer<Utf8> Function(Pointer<Utf8>)>>(
             'encrypt')
         .asFunction();
     stringresult = trialFFI(inputs).toDartString();
+    print(stringresult);
     return stringresult;
   }
   
   @override
   Widget build(BuildContext context) {
-    return _tryEncrypt(widget.input!.toNativeUtf8());
+    return tryEncrypt(widget.input!.toNativeUtf8());
   }
 }

@@ -19,18 +19,19 @@ class _DecryptFFIState extends State<DecryptFFI> {
       ? DynamicLibrary.open('libtrial_ffi.so')
       : DynamicLibrary.process();
 
-   _tryDecrypt(Pointer<Utf8> inputs) {
+   tryDecrypt(Pointer<Utf8> inputs) {
     final Pointer<Utf8> Function(Pointer<Utf8> text) trialFFI = trialFFILib
         .lookup<NativeFunction<Pointer<Utf8> Function(Pointer<Utf8>)>>(
             'decrypt')
         .asFunction();
 
     stringresult = trialFFI(inputs).toDartString();
+    print(stringresult);
     return stringresult;
   }
   
   @override
   Widget build(BuildContext context) {
-    return _tryDecrypt(widget.input!.toNativeUtf8());
+    return tryDecrypt(widget.input!.toNativeUtf8());
   }
 }
