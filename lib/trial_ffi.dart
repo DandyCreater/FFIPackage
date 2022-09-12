@@ -14,8 +14,6 @@ class TrialFfi {
       ? DynamicLibrary.open('libtrial_ffi.so')
       : DynamicLibrary.process();
 
-
-
  Future<String> tryEncrypt(String inputs) async {
     String stringresult = "";
     var inputUtf8 = inputs.toNativeUtf8();

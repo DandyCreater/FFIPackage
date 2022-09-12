@@ -11,15 +11,27 @@ class DecryptFFI{
       ? DynamicLibrary.open('libtrial_ffi.so')
       : DynamicLibrary.process();
 
-  tryEncrypt(Pointer<Utf8> inputs) {
+
+Future<String> tryDecrypt(String inputs) async {
+    String stringresult = "";
+    var inputUtf8 = inputs.toNativeUtf8();
     final Pointer<Utf8> Function(Pointer<Utf8> text) trialFFI = trialFFILib
         .lookup<NativeFunction<Pointer<Utf8> Function(Pointer<Utf8>)>>(
             'decrypt')
         .asFunction();
-    stringresult = trialFFI(inputs).toDartString();
-    print(stringresult);
+    stringresult = trialFFI(inputUtf8).toDartString();
     return stringresult;
   }
+
+  // tryEncrypt(Pointer<Utf8> inputs) {
+  //   final Pointer<Utf8> Function(Pointer<Utf8> text) trialFFI = trialFFILib
+  //       .lookup<NativeFunction<Pointer<Utf8> Function(Pointer<Utf8>)>>(
+  //           'decrypt')
+  //       .asFunction();
+  //   stringresult = trialFFI(inputs).toDartString();
+  //   print(stringresult);
+  //   return stringresult;
+  // }
 }
 
 
