@@ -6,20 +6,33 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class EncryptFFI{
-   String stringresult = "";
+  //  String stringresult = "";
   final DynamicLibrary trialFFILib = Platform.isAndroid
       ? DynamicLibrary.open('libtrial_ffi.so')
       : DynamicLibrary.process();
 
-  tryEncrypt(Pointer<Utf8> inputs) {
+
+ Future<String> tryEncrypt(String inputs) async {
+    String stringresult = "";
+    var inputUtf8 = inputs.toNativeUtf8();
     final Pointer<Utf8> Function(Pointer<Utf8> text) trialFFI = trialFFILib
         .lookup<NativeFunction<Pointer<Utf8> Function(Pointer<Utf8>)>>(
             'encrypt')
         .asFunction();
-    stringresult = trialFFI(inputs).toDartString();
-    print(stringresult);
+    stringresult = trialFFI(inputUtf8).toDartString();
     return stringresult;
   }
+
+
+  // tryEncrypt(Pointer<Utf8> inputs) {
+  //   final Pointer<Utf8> Function(Pointer<Utf8> text) trialFFI = trialFFILib
+  //       .lookup<NativeFunction<Pointer<Utf8> Function(Pointer<Utf8>)>>(
+  //           'encrypt')
+  //       .asFunction();
+  //   stringresult = trialFFI(inputs).toDartString();
+  //   print(stringresult);
+  //   return stringresult;
+  // }
 
 }
 // class EncryptFFI extends StatefulWidget {
